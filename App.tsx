@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {HelloWorld} from './src/HelloWorld';
+import {LogInScreen} from './src/LogInScreen';
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
-      <HelloWorld/>
+      <LogInScreen/>
   );
 };
 
