@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-  Text,
-} from 'react-native';
 
+import {HelloWorld} from './src/HelloWorld';
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
-    <>
-      <Text>Hello, world!"</Text>
-    </>
+      <HelloWorld/>
   );
 };
 
