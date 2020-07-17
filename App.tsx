@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
-import {LogInScreen} from './src/LogInScreen';
-declare const global: {HermesInternal: null | {}};
+function App() {
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
 
-const App = () => {
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
+    return (
+      <View>
+        <Text>Login</Text>
+      </View>
+    );
+  }
+
   return (
-      <LogInScreen/>
+    <View>
+      <Text>Welcome {user.email}</Text>
+    </View>
   );
-};
+}
 
 export default App;
