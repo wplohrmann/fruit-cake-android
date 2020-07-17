@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "114112815101",
+    "firebase_url": "https://fruitcake-ed3eb.firebaseio.com",
+    "project_id": "fruitcake-ed3eb",
+    "storage_bucket": "fruitcake-ed3eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114112815101:android:65b5fb4625f7d6a3548394",
+        "android_client_info": {
+          "package_name": "com.fruitcake"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114112815101-kmgeun5fakjl9bb6b8qkuljcbi8bgcu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fruitcake",
+            "certificate_hash": "e59c456995b6adb1c95c621956edd91f9823a6b8"
+          }
+        },
+        {
+          "client_id": "114112815101-b40kqe23bmhn5r95udullntfcu634jj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3rtV9Qsfh_NRgAhb73yIxMkm8TRKQ38o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114112815101-b40kqe23bmhn5r95udullntfcu634jj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
