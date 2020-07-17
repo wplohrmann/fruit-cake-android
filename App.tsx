@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
+import { LogInScreen } from './src/LogInScreen';
+import { WelcomeScreen } from './src/WelcomeScreen';
 import auth from '@react-native-firebase/auth';
 
 function App() {
@@ -23,14 +25,14 @@ function App() {
   if (!user) {
     return (
       <View>
-        <Text>Login</Text>
+        <LogInScreen/>
       </View>
     );
   }
 
   return (
     <View>
-      <Text>Welcome {user.email}</Text>
+      <WelcomeScreen user={user} setUser={setUser}/>
     </View>
   );
 }
