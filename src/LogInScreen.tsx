@@ -16,21 +16,22 @@ export const LogInScreen = () => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          setErrorMessage('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          setErrorMessage('That email address is invalid!');
-        }
+          setErrorMessage(error.code);
       });
+  };
+
+  const logIn = (email: string, password: string) => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(error => {setErrorMessage(error.code);});
   };
   return (
     <>
       <Text>Welcome! Please log in or register to continue</Text>
       <TextInput placeholder={"Email"} value={emailInput} onChangeText={v => setEmailInput(v)}/>
       <TextInput placeholder={"Password"} value={passwordInput} onChangeText={v => setPasswordInput(v)}/>
-      <Button title="Log in" onPress={() => createUser(emailInput, passwordInput)}/>
+      <Button title="Log in" onPress={() => logIn(emailInput, passwordInput)}/>
+      <Button title="Register" onPress={() => createUser(emailInput, passwordInput)}/>
       <Text>{errorMessage}</Text>
     </>
   );
