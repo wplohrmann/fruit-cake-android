@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { LogInScreen } from './src/LogInScreen';
 import { WelcomeScreen } from './src/WelcomeScreen';
 import auth from '@react-native-firebase/auth';
@@ -7,10 +7,10 @@ import auth from '@react-native-firebase/auth';
 function App() {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
+  function onAuthStateChanged(user: any) {
     setUser(user);
     if (initializing) setInitializing(false);
   }

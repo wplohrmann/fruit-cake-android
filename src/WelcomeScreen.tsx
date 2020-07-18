@@ -9,7 +9,12 @@ import {ShoppingList } from './ShoppingList';
 
 import auth from '@react-native-firebase/auth';
 
-export const WelcomeScreen = (props) => {
+interface Props {
+    setUser: any;
+    user: any;
+}
+
+export const WelcomeScreen: React.FC<Props> = (props) => {
   const [itemInput, setItemInput] = useState("");
   const [items, setItems] = useState(new Array());
   const logOut = () => {
