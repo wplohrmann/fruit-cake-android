@@ -21,11 +21,6 @@ export const WelcomeScreen: React.FC<Props> = (props) => {
   const [items, setItems] = useState(new Array());
   const [loading, setLoading] = useState(true);
 
-  const logOut = () => {
-  auth()
-    .signOut()
-    .then(() => props.setUser(null));
-  }
   useEffect(() => {
       var newItems = new Array();
       const subscriber = firestore()
