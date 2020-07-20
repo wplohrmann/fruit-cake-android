@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 
 import {
-  Text,
   TextInput,
   Button,
-} from 'react-native';
+  Text
+} from 'react-native-paper';
 
 export const LogInScreen = () => {
   const [emailInput, setEmailInput] = useState("");
@@ -30,7 +30,7 @@ export const LogInScreen = () => {
       <Text>Welcome! Please log in or register to continue</Text>
       <TextInput placeholder={"Email"} value={emailInput} onChangeText={v => setEmailInput(v)}/>
       <TextInput placeholder={"Password"} value={passwordInput} onChangeText={v => setPasswordInput(v)}/>
-      <Button title="Log in" onPress={() => logIn(emailInput, passwordInput)}/>
+      <Button onPress={() => logIn(emailInput, passwordInput)}>Log in</Button>
       <Button title="Register" onPress={() => createUser(emailInput, passwordInput)}/>
       <Text>{errorMessage}</Text>
     </>
