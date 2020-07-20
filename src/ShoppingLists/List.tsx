@@ -1,8 +1,12 @@
 import React from 'react';
+
 import {
-  Text,
   FlatList,
 } from 'react-native';
+
+import {
+  Text
+} from 'react-native-paper';
 
 interface ShoppingItem {
     name: string;
@@ -19,9 +23,8 @@ function keyExtractor(item: ShoppingItem, index: number): string {
     return item.name + index;
 }
 
-
-export const ShoppingList = (props: {items: ShoppingItem[]}) => {
+export const List = (props: {items: ShoppingItem[]}) => {
   return (
-  <FlatList data={props.items} renderItem={obj => renderItem(obj.item)} keyExtractor={keyExtractor}/>
+    <FlatList data={props.items} renderItem={obj => renderItem(obj.item)} keyExtractor={keyExtractor}/>
   );
 };

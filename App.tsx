@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
+import { Provider } from 'react-native-paper';
 import { LogInScreen } from './src/LogInScreen';
-import { WelcomeScreen } from './src/WelcomeScreen';
+import { ShoppingLists } from './src/ShoppingLists/Screen';
 import auth from '@react-native-firebase/auth';
 
 function App() {
@@ -15,6 +16,12 @@ function App() {
     if (initializing) setInitializing(false);
   }
 
+  const logOut = () => {
+  auth()
+    .signOut()
+    .then(() => props.setUser(null));
+  }
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
@@ -24,16 +31,16 @@ function App() {
 
   if (!user) {
     return (
-      <View>
+      <Provider>
         <LogInScreen/>
-      </View>
+      </Provider>
     );
   }
 
   return (
-    <View>
-      <WelcomeScreen user={user} setUser={setUser}/>
-    </View>
+    <Provider>
+      <ShoppingLists user={user} logOut={logOut}/>
+    </Provider>
   );
 }
 
