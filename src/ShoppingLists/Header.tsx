@@ -24,9 +24,11 @@ export const Header = (props: Props) => {
     const subscriber = firestore()
       .collection("ShoppingLists")
       .where("owners", "array-contains", props.user_id)
-      .onSnapshot(querySnapshot => querySnapshot.forEach((document => 
-        newShoppingLists.push({...document.data, id: document.id}))));
-    setShoppingLists(newShoppingLists);
+      .onSnapshot(querySnapshot => {
+        querySnapshot.forEach((document => newShoppingLists.push({...document.data, id: document.id})));
+        console.log(newShoppingLists);
+        setShoppingLists(newShoppingLists);
+      });
     return subscriber;
   }, []);
 
