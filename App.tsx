@@ -19,7 +19,7 @@ function App() {
   const logOut = () => {
   auth()
     .signOut()
-    .then(() => props.setUser(null));
+    .then(() => setUser(null));
   }
 
   useEffect(() => {
