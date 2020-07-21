@@ -4,6 +4,10 @@ import {
   ActivityIndicator,
 } from 'react-native-paper';
 
+import {
+  View
+} from 'react-native';
+
 import { ShoppingItem, ShoppingList } from './Types';
 
 import firestore from '@react-native-firebase/firestore';
@@ -23,12 +27,19 @@ export const ShoppingLists = (props: Props) => {
 
   useEffect(() => {
       if (shoppingList === undefined) { return; }
-      var newItems: ShoppingItem[] = new Array();
       const subscriber = firestore()
           .collection("ShoppingItems")
           .where("shoppingList", "==", shoppingList.id)
-          .onSnapshot((querySnapShot: any) => querySnapShot.forEach((documentSnapshot: any) => newItems.push(documentSnapshot.data())));
-          setItems(newItems);
+          .onSnapshot((querySnapShot: any) => {
+            var newItems: ShoppingItem[] = new Array();
+            querySnapShot.forEach((documentSnapshot: any) => {
+              const newItem = documentSnapshot.data();
+              if ("name" in newItem && "amount" in newItem && "amount_unit" in newItem && "shoppingList" in newItem && "mode" in newItem) {
+                newItems.push(newItem);
+              }
+            });
+            setItems(newItems);
+          });
       return () => subscriber();
   }, [shoppingList]);
 
@@ -51,8 +62,8 @@ export const ShoppingLists = (props: Props) => {
   return (
     <>
       <Header shoppingList={shoppingList} setShoppingList={setShoppingList} logOut={props.logOut} user_id={props.user.uid}/>
-      {(items === undefined) ? <ActivityIndicator/> : <List items={items} />}
-      <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>
+      {(shoppingList === undefined) ? <View style={{"flex": 1, "justifyContent": "center"}}><ActivityIndicator/></View> : <List items={items} />}
+      {(shoppingList === undefined) ? null : <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>}
     </>
   );
 };

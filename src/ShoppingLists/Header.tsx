@@ -41,19 +41,17 @@ export const Header = (props: Props) => {
             .doc(props.user_id)
             .set(newShoppingList)
             .then(() => console.log("Shopping list added"))
-            .then(() => setShoppingLists([newShoppingList]));
+            .then(() => setShoppingLists([newShoppingList]))
+            .then(() => props.setShoppingList(newShoppingList));
         } else {
           setShoppingLists(newShoppingLists);
+          if (props.shoppingList === undefined) {
+            props.setShoppingList(newShoppingLists[0]);
+          }
         }
       });
     return subscriber;
   }, []);
-
-  useEffect(() => {
-    if (props.shoppingList === undefined) {
-      props.setShoppingList(shoppingLists[0]);
-    }
-  }, [shoppingLists]);
 
   if (props.shoppingList === undefined) {
     return <Appbar.Header><Appbar.Content title="Loading..."/></Appbar.Header>;
