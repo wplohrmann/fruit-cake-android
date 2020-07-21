@@ -30,20 +30,23 @@ export const Header = (props: Props) => {
           const newShoppingList = {...document.data(), id: document.id};
           if ("name" in newShoppingList && "owners" in newShoppingList) {
             newShoppingLists.push(newShoppingList);
+          } else {
+            throw "Invalid format";
           }
         }));
-        setShoppingLists(newShoppingLists);
+        if (newShoppingLists.length === 0) {
+          const newShoppingList: ShoppingList = {"name": "Groceries", "owners": [props.user_id], "id": props.user_id};
+          firestore()
+            .collection("ShoppingLists")
+            .doc(props.user_id)
+            .set(newShoppingList)
+            .then(() => console.log("Shopping list added"))
+            .then(() => setShoppingLists([newShoppingList]));
+        } else {
+          setShoppingLists(newShoppingLists);
+        }
       });
     return subscriber;
-  }, []);
-
-  useEffect(() => {
-    if (shoppingLists.length === 0) {
-      firestore()
-        .collection("ShoppingLists")
-        .add({"name": "Groceries", "owners": [props.user_id]})
-        .then(() => console.log("Shopping list added"));
-    }
   }, []);
 
   useEffect(() => {
