@@ -2,36 +2,65 @@ import React, { useState, useEffect } from 'react';
 import {
   Text,
   TextInput,
+  ActivityIndicator,
 } from 'react-native-paper';
+
+import firestore from '@react-native-firebase/firestore';
 
 import {Header} from './Header';
 import {List} from './List';
 
-const shoppingLists = [{"name": "Groceries", "id": "haha"}, {"name": "Electronics", "id": "hoho"}];
-const allItems = {
-  "haha": [{"name": "Milk", "amount": 1, "amount_unit": "", "mode": "active"},
-           {"name": "Juice", "amount": 1, "amount_unit": "", "mode": "active"}],
-  "hoho": [{"name": "Battery", "amount": 1, "amount_unit": "", "mode": "active"},
-           {"name": "Lamp", "amount": 1, "amount_unit": "", "mode": "active"}]}
+interface ShoppingList {
+  name: string;
+  id: string;
+  owners: string[];
+}
+
+interface ShoppingItem {
+    name: string;
+    amount: number;
+    amount_unit: string;
+    mode: "active" | "bought" | "not-in-store" | "removed";
+}
 
 export const ShoppingLists = (props) => {
-  const [index, setIndex] = useState(0);
   const [items, setItems] = useState(undefined);
   const [input, setInput] = useState("");
+  const [shoppingListloading, setShoppingListLoading] = useState(true);
+  const [itemsLoading, setItemsLoading] = useState(true);
+  const [shoppingList, setShoppingList] = useState(undefined);
 
   useEffect(() => {
-    setItems(allItems[shoppingLists[index].id]);
-  }, [index]);
+      if (shoppingList === undefined) { return; }
+      var newItems = new Array();
+      const subscriber = firestore()
+          .collection("ShoppingItems")
+          .where("shoppingList", "==", shoppingList.id)
+          .onSnapshot((querySnapShot: any) => querySnapShot.forEach((documentSnapshot: any) => newItems.push(item)));
+          setItems(newItems);
+          setItemsLoading(false);
+      return () => subscriber();
+  }, [shoppingList]);
 
   const addItem = () => {
-    alert("Added "+ input + "!");
+    const newItem: ShoppingItem = {
+      name: input,
+      amount: 1,
+      amount_unit: "",
+      mode: "active",
+      shoppingList: shoppingList
+    };
+    firestore()
+      .collection("ShoppingItems")
+      .add(newItem)
+      .then(() => console.log(newItem + " added"));
     setInput("");
   };
 
   return (
     <>
-      <Header shoppingLists={shoppingLists} index={index} setIndex={setIndex} logOut={props.logOut}/>
-      <List items={items} />
+      <Header shoppingList={shoppingList} setShoppingList={setShoppingList} setShoppingListLoading={setShoppingListLoading} logOut={props.logOut} user_id={props.user.id}/>
+      {itemsLoading ? <ActivityIndicator/> : <List items={items} />}
       <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>
     </>
   );
