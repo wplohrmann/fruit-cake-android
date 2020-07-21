@@ -25,6 +25,6 @@ function keyExtractor(item: ShoppingItem, index: number): string {
 
 export const List = (props: {items: ShoppingItem[]}) => {
   return (
-    <FlatList data={props.items} renderItem={obj => renderItem(obj.item)} keyExtractor={keyExtractor}/>
+    <FlatList style={{flex: 1}} data={props.items} renderItem={obj => renderItem(obj.item)} keyExtractor={keyExtractor}/>
   );
 };

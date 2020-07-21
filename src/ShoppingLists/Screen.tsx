@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Text,
+  TextInput,
 } from 'react-native-paper';
 
 import {Header} from './Header';
@@ -16,15 +17,22 @@ const allItems = {
 export const ShoppingLists = (props) => {
   const [index, setIndex] = useState(0);
   const [items, setItems] = useState(undefined);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     setItems(allItems[shoppingLists[index].id]);
   }, [index]);
 
+  const addItem = () => {
+    alert("Added "+ input + "!");
+    setInput("");
+  };
+
   return (
     <>
       <Header shoppingLists={shoppingLists} index={index} setIndex={setIndex} logOut={props.logOut}/>
       <List items={items} />
+      <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>
     </>
   );
 };
