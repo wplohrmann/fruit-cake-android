@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
 import { Provider } from 'react-native-paper';
 import { LogInScreen } from './src/LogInScreen';
 import { ShoppingLists } from './src/ShoppingLists/Screen';

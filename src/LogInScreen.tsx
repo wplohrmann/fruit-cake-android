@@ -31,7 +31,7 @@ export const LogInScreen = () => {
       <TextInput placeholder={"Email"} value={emailInput} onChangeText={v => setEmailInput(v)}/>
       <TextInput placeholder={"Password"} value={passwordInput} onChangeText={v => setPasswordInput(v)}/>
       <Button onPress={() => logIn(emailInput, passwordInput)}>Log in</Button>
-      <Button title="Register" onPress={() => createUser(emailInput, passwordInput)}/>
+      <Button onPress={() => createUser(emailInput, passwordInput)}>Register</Button>
       <Text>{errorMessage}</Text>
     </>
   );

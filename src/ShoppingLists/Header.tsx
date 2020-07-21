@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Text,
   Appbar,
   Menu,
-  Divider
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
-export const Header = (props) => {
+import {ShoppingList} from './Types';
+
+interface Props {
+  user_id: string;
+  shoppingList: ShoppingList | undefined;
+  setShoppingList: any;
+  logOut: any;
+}
+
+export const Header = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const [moreVisible, setMoreVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [shoppingLists, setShoppingLists] = useState(undefined);
+  const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
 
   useEffect(() => {
     let newShoppingLists = new Array();
@@ -21,12 +27,11 @@ export const Header = (props) => {
       .onSnapshot(querySnapshot => querySnapshot.forEach((document => 
         newShoppingLists.push({...document.data, id: document.id}))));
     setShoppingLists(newShoppingLists);
-    setLoading(false);
     return subscriber;
   }, []);
 
   useEffect(() => {
-    if (!loading && shoppingLists.length === 0) {
+    if (shoppingLists !== undefined && shoppingLists.length === 0) {
       firestore()
         .collection("ShoppingLists")
         .add({"name": "Groceries", "owners": [props.user_id]})
@@ -37,7 +42,7 @@ export const Header = (props) => {
     }
   }, [shoppingLists]);
 
-  if (loading) {
+  if (props.shoppingList === undefined) {
     return <Appbar.Header><Appbar.Content title="Loading..."/></Appbar.Header>;
   }
 
@@ -47,7 +52,7 @@ export const Header = (props) => {
         visible={visible}
         onDismiss={() => setVisible(false)}
         anchor={<Appbar.Content title={props.shoppingList.name} onPress={() => setVisible(true)}/>}>
-        {shoppingLists.map((item, index) => <Menu.Item title={item.name} key={index} onPress={() => {
+        {shoppingLists.map((item: ShoppingList, index: number) => <Menu.Item title={item.name} key={index} onPress={() => {
             props.setShoppingList(shoppingLists[index]);
             setVisible(false);
           }

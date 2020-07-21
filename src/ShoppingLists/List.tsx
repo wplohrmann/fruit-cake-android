@@ -8,6 +8,8 @@ import {
   Text
 } from 'react-native-paper';
 
+import { ShoppingItem } from './Types';
+
 
 function renderItem(item: ShoppingItem) {
     return <Text>{item.name}</Text>;
