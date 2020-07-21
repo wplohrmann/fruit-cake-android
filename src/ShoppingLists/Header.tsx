@@ -27,9 +27,9 @@ export const Header = (props: Props) => {
       .onSnapshot(querySnapshot => {
         querySnapshot.forEach((document => {
           console.log("Shopping list: " + JSON.stringify(document.data()));
-          const data = document.data();
-          if (data.name && typeof data.name === "string" && data.owners && typeof data.owners === "object") {
-            newShoppingLists.push({...data, id: document.id});
+          const newShoppingList = {...document.data(), id: document.id};
+          if ("name" in newShoppingList && "owners" in newShoppingList) {
+            newShoppingLists.push(newShoppingList);
           }
         }));
         setShoppingLists(newShoppingLists);
