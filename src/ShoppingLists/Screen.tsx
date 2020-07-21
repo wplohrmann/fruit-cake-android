@@ -27,7 +27,7 @@ export const ShoppingLists = (props: Props) => {
       const subscriber = firestore()
           .collection("ShoppingItems")
           .where("shoppingList", "==", shoppingList.id)
-          .onSnapshot((querySnapShot: any) => querySnapShot.forEach((documentSnapshot: any) => newItems.push(documentSnapshot.data)));
+          .onSnapshot((querySnapShot: any) => querySnapShot.forEach((documentSnapshot: any) => newItems.push(documentSnapshot.data())));
           setItems(newItems);
       return () => subscriber();
   }, [shoppingList]);
@@ -50,7 +50,7 @@ export const ShoppingLists = (props: Props) => {
 
   return (
     <>
-      <Header shoppingList={shoppingList} setShoppingList={setShoppingList} logOut={props.logOut} user_id={props.user.id}/>
+      <Header shoppingList={shoppingList} setShoppingList={setShoppingList} logOut={props.logOut} user_id={props.user.uid}/>
       {(items === undefined) ? <ActivityIndicator/> : <List items={items} />}
       <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>
     </>

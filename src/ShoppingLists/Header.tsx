@@ -20,25 +20,33 @@ export const Header = (props: Props) => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
 
   useEffect(() => {
-    let newShoppingLists = new Array();
+    let newShoppingLists: ShoppingList[] = new Array();
     const subscriber = firestore()
       .collection("ShoppingLists")
       .where("owners", "array-contains", props.user_id)
       .onSnapshot(querySnapshot => {
-        querySnapshot.forEach((document => newShoppingLists.push({...document.data, id: document.id})));
-        console.log(newShoppingLists);
+        querySnapshot.forEach((document => {
+          console.log("Shopping list: " + JSON.stringify(document.data()));
+          const data = document.data();
+          if (data.name && typeof data.name === "string" && data.owners && typeof data.owners === "object") {
+            newShoppingLists.push({...data, id: document.id});
+          }
+        }));
         setShoppingLists(newShoppingLists);
       });
     return subscriber;
   }, []);
 
   useEffect(() => {
-    if (shoppingLists !== undefined && shoppingLists.length === 0) {
+    if (shoppingLists.length === 0) {
       firestore()
         .collection("ShoppingLists")
         .add({"name": "Groceries", "owners": [props.user_id]})
         .then(() => console.log("Shopping list added"));
     }
+  }, []);
+
+  useEffect(() => {
     if (props.shoppingList === undefined) {
       props.setShoppingList(shoppingLists[0]);
     }
