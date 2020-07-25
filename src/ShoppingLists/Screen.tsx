@@ -55,7 +55,7 @@ export const ShoppingLists = (props: Props) => {
     firestore()
       .collection("ShoppingItems")
       .add(newItem)
-      .then(() => console.log(newItem + " added"));
+      .then(() => console.log(JSON.stringify(newItem) + " added"));
     setInput("");
   };
 

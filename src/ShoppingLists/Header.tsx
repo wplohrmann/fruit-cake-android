@@ -20,11 +20,11 @@ export const Header = (props: Props) => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
 
   useEffect(() => {
-    let newShoppingLists: ShoppingList[] = new Array();
     const subscriber = firestore()
       .collection("ShoppingLists")
       .where("owners", "array-contains", props.user_id)
       .onSnapshot(querySnapshot => {
+        let newShoppingLists: ShoppingList[] = new Array();
         querySnapshot.forEach((document => {
           console.log("Shopping list: " + JSON.stringify(document.data()));
           const newShoppingList = {...document.data(), id: document.id};
@@ -34,20 +34,17 @@ export const Header = (props: Props) => {
             throw "Invalid format";
           }
         }));
+        setShoppingLists(newShoppingLists);
         if (newShoppingLists.length === 0) {
           const newShoppingList: ShoppingList = {"name": "Groceries", "owners": [props.user_id], "id": props.user_id};
           firestore()
             .collection("ShoppingLists")
             .doc(props.user_id)
             .set(newShoppingList)
-            .then(() => console.log("Shopping list added"))
-            .then(() => setShoppingLists([newShoppingList]))
-            .then(() => props.setShoppingList(newShoppingList));
-        } else {
-          setShoppingLists(newShoppingLists);
-          if (props.shoppingList === undefined) {
-            props.setShoppingList(newShoppingLists[0]);
-          }
+            .then(() => console.log("Shopping list added"));
+        }
+        if (props.shoppingList === undefined) {
+          props.setShoppingList(newShoppingLists[0]);
         }
       });
     return subscriber;
