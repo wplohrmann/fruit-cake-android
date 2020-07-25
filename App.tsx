@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-native-paper';
 import { LogInScreen } from './src/LogInScreen';
-import { ShoppingLists } from './src/ShoppingLists/Screen';
+import { ShoppingLists } from './src/ShoppingLists';
 import auth from '@react-native-firebase/auth';
 
 function App() {

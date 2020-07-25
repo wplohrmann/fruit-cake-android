@@ -8,12 +8,12 @@ import {
   View
 } from 'react-native';
 
-import { ShoppingItem, UniqueShoppingList, UniqueShoppingItem } from './Types';
+import { ShoppingItem, UniqueShoppingList, UniqueShoppingItem } from './ShoppingLists/Types';
 
 import firestore from '@react-native-firebase/firestore';
 
-import {Header} from './Header';
-import {List} from './List';
+import {Header} from './ShoppingLists/Header';
+import {List} from './ShoppingLists/List';
 
 interface Props {
   user: any;
