@@ -20,18 +20,13 @@ interface Props {
 export const RenameShoppingList = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const [renameInput, setRenameInput] = useState("");
-  
+
   const handleRename = () => {
     console.log("Shopping list renamed to " + JSON.stringify(renameInput));
-    let newShoppingList = {...props.shoppingList};
-    newShoppingList.name = renameInput;
-    delete newShoppingList.id;
     firestore()
       .collection("ShoppingLists")
       .doc(props.shoppingList.id)
-      .set(newShoppingList);
-    newShoppingList.id = props.shoppingList.id;
-    props.setShoppingList(newShoppingList);
+      .update({"name": renameInput});
     dismiss();
   };
 

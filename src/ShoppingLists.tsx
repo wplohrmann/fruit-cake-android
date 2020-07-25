@@ -62,7 +62,7 @@ export const ShoppingLists = (props: Props) => {
 
   return (
     <>
-      <Header shoppingList={shoppingList} setShoppingList={setShoppingList} logOut={props.logOut} user_id={props.user.uid}/>
+      <Header shoppingList={shoppingList} setShoppingList={setShoppingList} logOut={props.logOut} userId={props.user.uid}/>
       {(shoppingList === undefined) ? <View style={{"flex": 1, "justifyContent": "center"}}><ActivityIndicator/></View> : <List items={items} />}
       {(shoppingList === undefined) ? null : <TextInput placeholder="Add item" value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={addItem}/>}
     </>

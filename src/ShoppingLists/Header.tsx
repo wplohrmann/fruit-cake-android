@@ -9,9 +9,10 @@ import firestore from '@react-native-firebase/firestore';
 
 import {UniqueShoppingList} from './Types';
 import {RenameShoppingList} from './Header/RenameShoppingList';
+import {NewShoppingList} from './Header/NewShoppingList';
 
 interface Props {
-  user_id: string;
+  userId: string;
   shoppingList: UniqueShoppingList | undefined;
   setShoppingList: any;
   logOut: any;
@@ -25,7 +26,7 @@ export const Header = (props: Props) => {
   useEffect(() => {
     const subscriber = firestore()
       .collection("ShoppingLists")
-      .where("owners", "array-contains", props.user_id)
+      .where("owners", "array-contains", props.userId)
       .onSnapshot(querySnapshot => {
         let newShoppingLists: UniqueShoppingList[] = new Array();
         querySnapshot.forEach((document => {
@@ -39,10 +40,10 @@ export const Header = (props: Props) => {
         }));
         setShoppingLists(newShoppingLists);
         if (newShoppingLists.length === 0) {
-          const newShoppingList = {"name": "Groceries", "owners": [props.user_id]};
+          const newShoppingList = {"name": "Groceries", "owners": [props.userId]};
           firestore()
             .collection("ShoppingLists")
-            .doc(props.user_id)
+            .doc(props.userId)
             .set(newShoppingList)
             .then(() => console.log("Shopping list added"));
         }
@@ -69,7 +70,7 @@ export const Header = (props: Props) => {
       onDismiss={() => setMoreVisible(false)}
       anchor={{x: Dimensions.get("window").width, y: 0}}>
       <RenameShoppingList setShoppingList={props.setShoppingList} shoppingList={props.shoppingList} hideMenu={() => setMoreVisible(false)}/>
-      <Menu.Item title="New Shopping List" onPress={() => {}} />
+      <NewShoppingList setShoppingList={props.setShoppingList} hideMenu={() => setMoreVisible(false)} userId={props.userId}/>
       <Divider/>
       <Menu.Item title="Log out" onPress={() => props.logOut()} />
     </Menu>
