@@ -39,7 +39,7 @@ export const Header = (props: Props) => {
         }));
         setShoppingLists(newShoppingLists);
         if (newShoppingLists.length === 0) {
-          const newShoppingList: ShoppingList = {"name": "Groceries", "owners": [props.user_id], "id": props.user_id};
+          const newShoppingList = {"name": "Groceries", "owners": [props.user_id]};
           firestore()
             .collection("ShoppingLists")
             .doc(props.user_id)

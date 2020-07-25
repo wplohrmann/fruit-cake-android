@@ -7,6 +7,8 @@ import {
   Dialog,
 } from 'react-native-paper';
 
+import firestore from '@react-native-firebase/firestore';
+
 import { ShoppingList } from '../Types';
 
 interface Props {
@@ -20,6 +22,13 @@ export const RenameShoppingList = (props: Props) => {
   
   const handleRename = () => {
     console.log("Shopping list renamed to " + JSON.stringify(renameInput));
+    let newShoppingList = {...props.shoppingList};
+    newShoppingList.name = renameInput;
+    delete newShoppingList.id;
+    firestore()
+      .collection("ShoppingLists")
+      .doc(props.shoppingList.id)
+      .set(newShoppingList);
     dismiss();
   };
 
