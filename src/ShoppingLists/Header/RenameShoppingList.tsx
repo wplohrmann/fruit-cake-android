@@ -9,10 +9,11 @@ import {
 
 import firestore from '@react-native-firebase/firestore';
 
-import { ShoppingList } from '../Types';
+import { UniqueShoppingList } from '../Types';
 
 interface Props {
-  shoppingList: ShoppingList;
+  setShoppingList: any;
+  shoppingList: UniqueShoppingList;
   hideMenu: any;
 }
 
@@ -29,6 +30,8 @@ export const RenameShoppingList = (props: Props) => {
       .collection("ShoppingLists")
       .doc(props.shoppingList.id)
       .set(newShoppingList);
+    newShoppingList.id = props.shoppingList.id;
+    props.setShoppingList(newShoppingList);
     dismiss();
   };
 

@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import { ShoppingItem, ShoppingList } from './Types';
+import { ShoppingItem, UniqueShoppingList, UniqueShoppingItem } from './Types';
 
 import firestore from '@react-native-firebase/firestore';
 
@@ -21,9 +21,9 @@ interface Props {
 }
 
 export const ShoppingLists = (props: Props) => {
-  const [items, setItems] = useState<ShoppingItem[]>([]);
+  const [items, setItems] = useState<UniqueShoppingItem[]>([]);
   const [input, setInput] = useState("");
-  const [shoppingList, setShoppingList] = useState<ShoppingList | undefined >(undefined);
+  const [shoppingList, setShoppingList] = useState<UniqueShoppingList | undefined >(undefined);
 
   useEffect(() => {
       if (shoppingList === undefined) { return; }
@@ -31,11 +31,11 @@ export const ShoppingLists = (props: Props) => {
           .collection("ShoppingItems")
           .where("shoppingList", "==", shoppingList.id)
           .onSnapshot((querySnapShot: any) => {
-            var newItems: ShoppingItem[] = new Array();
+            var newItems: UniqueShoppingItem[] = new Array();
             querySnapShot.forEach((documentSnapshot: any) => {
               const newItem = documentSnapshot.data();
               if ("name" in newItem && "amount" in newItem && "amount_unit" in newItem && "shoppingList" in newItem && "mode" in newItem) {
-                newItems.push(newItem);
+                newItems.push({...newItem, id: documentSnapshot.id});
               }
             });
             setItems(newItems);
@@ -49,7 +49,8 @@ export const ShoppingLists = (props: Props) => {
       name: input,
       amount: 1,
       amount_unit: "",
-      mode: "active",
+      active: true,
+      mode: "sought",
       shoppingList: shoppingList.id
     };
     firestore()

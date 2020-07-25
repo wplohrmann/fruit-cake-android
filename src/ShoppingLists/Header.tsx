@@ -7,12 +7,12 @@ import {
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
-import {ShoppingList} from './Types';
+import {UniqueShoppingList} from './Types';
 import {RenameShoppingList} from './Header/RenameShoppingList';
 
 interface Props {
   user_id: string;
-  shoppingList: ShoppingList | undefined;
+  shoppingList: UniqueShoppingList | undefined;
   setShoppingList: any;
   logOut: any;
 }
@@ -20,14 +20,14 @@ interface Props {
 export const Header = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const [moreVisible, setMoreVisible] = useState(false);
-  const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
+  const [shoppingLists, setShoppingLists] = useState<UniqueShoppingList[]>([]);
 
   useEffect(() => {
     const subscriber = firestore()
       .collection("ShoppingLists")
       .where("owners", "array-contains", props.user_id)
       .onSnapshot(querySnapshot => {
-        let newShoppingLists: ShoppingList[] = new Array();
+        let newShoppingLists: UniqueShoppingList[] = new Array();
         querySnapshot.forEach((document => {
           console.log("Shopping list: " + JSON.stringify(document.data()));
           const newShoppingList = {...document.data(), id: document.id};
@@ -68,7 +68,7 @@ export const Header = (props: Props) => {
       visible={moreVisible}
       onDismiss={() => setMoreVisible(false)}
       anchor={{x: Dimensions.get("window").width, y: 0}}>
-      <RenameShoppingList shoppingList={props.shoppingList} hideMenu={() => setMoreVisible(false)}/>
+      <RenameShoppingList setShoppingList={props.setShoppingList} shoppingList={props.shoppingList} hideMenu={() => setMoreVisible(false)}/>
       <Menu.Item title="New Shopping List" onPress={() => {}} />
       <Divider/>
       <Menu.Item title="Log out" onPress={() => props.logOut()} />
@@ -77,7 +77,7 @@ export const Header = (props: Props) => {
       visible={visible}
       onDismiss={() => setVisible(false)}
       anchor={{x: 0, y: 0}}>
-      {shoppingLists.map((item: ShoppingList, index: number) => <Menu.Item title={item.name} key={index} onPress={() => {
+      {shoppingLists.map((item: UniqueShoppingList, index: number) => <Menu.Item title={item.name} key={index} onPress={() => {
           props.setShoppingList(shoppingLists[index]);
           setVisible(false);
         }

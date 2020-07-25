@@ -1,6 +1,8 @@
+export interface Unique {
+    id: string;
+}
 export interface ShoppingList {
   name: string;
-  id: string;
   owners: string[];
 }
 
@@ -9,5 +11,10 @@ export interface ShoppingItem {
     amount: number;
     amount_unit: string;
     shoppingList: string;
-    mode: "active" | "bought" | "not-in-store" | "removed";
+    active: boolean;
+    mode: "sought" | "bought" | "not-in-store" | "removed";
 }
+
+export type UniqueShoppingList = Unique & ShoppingList
+export type UniqueShoppingItem = Unique & ShoppingItem
+
