@@ -12,19 +12,14 @@ import {
   Divider,
 } from 'react-native-paper';
 
-import { UniqueShoppingItem, ShoppingItem } from './Types';
+import { UniqueShoppingItem } from './Types';
 
 function toggleItemComplete(item: UniqueShoppingItem) {
   const newMode = (item.mode === "sought") ? "bought" : "sought";
-  let oldItem = {...item};
-  delete oldItem.id;
-  oldItem.mode = newMode;
-  const newItem: ShoppingItem = oldItem;
   firestore()
     .collection("ShoppingItems")
     .doc(item.id)
-    .set(newItem)
-    .then(() => console.log(newItem));
+    .update({"mode": newMode});
 }
 
 function renderItem(item: UniqueShoppingItem) {
