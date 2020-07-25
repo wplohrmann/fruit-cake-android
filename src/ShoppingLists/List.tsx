@@ -2,17 +2,26 @@ import React from 'react';
 
 import {
   FlatList,
+  Alert,
 } from 'react-native';
 
 import {
-  Text
+  Card,
+  Avatar,
+  Divider,
 } from 'react-native-paper';
 
 import { UniqueShoppingItem } from './Types';
 
 
 function renderItem(item: UniqueShoppingItem) {
-    return <Text>{item.name}</Text>;
+    return (
+      <Card onPress={() => Alert.alert("Done!")} onLongPress={() => Alert.alert("Long press!")} >
+        <Divider/>
+        <Card.Title title={item.name} left={(props: any) => <Avatar.Icon {...props} icon="folder"/>} />
+        <Divider/>
+      </Card>
+    );
 }
 
 function keyExtractor(item: UniqueShoppingItem, _: number): string {
