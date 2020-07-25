@@ -7,7 +7,7 @@ import {
   Dialog,
 } from 'react-native-paper';
 
-import { ShoppingList } from './Types';
+import { ShoppingList } from '../Types';
 
 interface Props {
   shoppingList: ShoppingList;
