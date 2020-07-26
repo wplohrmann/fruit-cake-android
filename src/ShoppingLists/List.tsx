@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import {
   FlatList,
   Alert,
+  TouchableHighlight
 } from 'react-native';
 
 import {
@@ -39,11 +40,13 @@ function renderItem(item: UniqueShoppingItem) {
       break;
   }
   return (
-    <Card onPress={() => toggleItemComplete(item)} onLongPress={() => Alert.alert("Long press!")} >
-      <Divider/>
-      <Card.Title title={item.name} left={(props: any) => <Avatar.Icon {...props} icon={icon}/>} />
-      <Divider/>
-    </Card>
+    <TouchableHighlight onPress={() => toggleItemComplete(item)} onLongPress={() => Alert.alert("Long press!")}>
+      <Card>
+        <Divider/>
+        <Card.Title title={item.name} left={(props: any) => <Avatar.Icon {...props} icon={icon}/>} />
+        <Divider/>
+      </Card>
+    </TouchableHighlight>
   );
 }
 
